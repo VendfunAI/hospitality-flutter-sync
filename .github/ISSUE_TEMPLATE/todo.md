@@ -5,9 +5,9 @@ title: ""
 labels: ["type:todo", "status:open"]
 ---
 
-<!-- Apply exactly one: side:hospitality OR side:flutter (who owes the next move). -->
+<!-- Apply exactly one: side:hospitality OR side:whatsapp-agent-frontend (who owes the next move). -->
 
-**Owed by:** `side:hospitality` / `side:flutter` (apply the matching label)
+**Owed by:** `side:hospitality` / `side:whatsapp-agent-frontend` (apply the matching label)
 
 **What's needed:**
 

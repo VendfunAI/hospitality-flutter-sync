@@ -5,14 +5,14 @@ title: "[path] short symptom"
 labels: ["type:bug", "status:open"]
 ---
 
-<!-- Apply exactly one: side:hospitality OR side:flutter (who should investigate / fix next). -->
+<!-- Apply exactly one: side:hospitality OR side:whatsapp-agent-frontend (who should investigate / fix next). -->
 
-**Owed by:** `side:hospitality` / `side:flutter` (apply the matching label)
+**Owed by:** `side:hospitality` / `side:whatsapp-agent-frontend` (apply the matching label)
 
 **Environment:** STG / PRD / other:  
 **API base:**  
 **When:** (date/time, approx)  
-**Client:** Flutter Events / Kiosk / curl / other:
+**Client:** WhatsApp agent frontend / Kiosk / curl / other:
 
 **Path:** e.g. `POST /v1/Events/...`
 

@@ -5,9 +5,9 @@ title: "Should we ...?"
 labels: ["type:decision", "status:open"]
 ---
 
-<!-- Apply exactly one: side:hospitality OR side:flutter (whoever should answer next). -->
+<!-- Apply exactly one: side:hospitality OR side:whatsapp-agent-frontend (whoever should answer next). -->
 
-**Owed by:** `side:hospitality` / `side:flutter` (apply the matching label)
+**Owed by:** `side:hospitality` / `side:whatsapp-agent-frontend` (apply the matching label)
 
 **Context:**
 

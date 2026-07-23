@@ -10,8 +10,8 @@ If your work involves the Events API, kiosk `/v1/*`, or cross-team Flutter work:
 # Hospitality agents
 gh issue list --repo VendfunAI/hospitality-flutter-sync --label side:hospitality --state open
 
-# Flutter agents
-gh issue list --repo VendfunAI/hospitality-flutter-sync --label side:flutter --state open
+# WhatsApp agent frontend agents
+gh issue list --repo VendfunAI/hospitality-flutter-sync --label side:whatsapp-agent-frontend --state open
 ```
 
 Act on open items before starting unrelated work when they block integration.

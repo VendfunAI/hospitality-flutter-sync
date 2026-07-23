@@ -88,7 +88,7 @@ Every issue carries **exactly one** owner label:
 | Label | Meaning |
 |-------|---------|
 | `side:hospitality` | Hospitality backend (Claude / Grok / Vendfun) owes the next move |
-| `side:flutter` | Flutter team / their agent owes the next move |
+| `side:whatsapp-agent-frontend` | WhatsApp agent frontend / its agent owes the next move |
 
 Flip the label when the ball changes sides.
 
@@ -137,13 +137,13 @@ gh issue list --repo VendfunAI/hospitality-flutter-sync \
 
 1. Update OpenAPI + Hospitality handoff (`FLUTTER_EVENTS_PORTAL_SPEC.md`)  
 2. Refresh `docs/FLUTTER_EVENTS_PORTAL_SPEC.md` in **this** repo if the prose handoff changed  
-3. Open a `type:spec-diff` issue, set `side:flutter`, link version / paths  
+3. Open a `type:spec-diff` issue, set `side:whatsapp-agent-frontend`, link version / paths  
 
 ### Flutter agent
 
 ```bash
 gh issue list --repo VendfunAI/hospitality-flutter-sync \
-  --label side:flutter --state open
+  --label side:whatsapp-agent-frontend --state open
 ```
 
 - Contract unclear / pushback → `type:decision`  
@@ -168,7 +168,7 @@ New comments count as activity — check issue `updatedAt`, not only new issues.
 | `status:done` | Todo or bug completed |
 | `status:blocked` | Waiting on the other side (or external) |
 | `side:hospitality` | Hospitality owes next move |
-| `side:flutter` | Flutter owes next move |
+| `side:whatsapp-agent-frontend` | WhatsApp agent frontend owes next move |
 
 ---
 

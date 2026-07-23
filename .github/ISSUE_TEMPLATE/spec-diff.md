@@ -5,9 +5,9 @@ title: "`<surface>`: <what changed>"
 labels: ["type:spec-diff", "status:open"]
 ---
 
-<!-- Apply exactly one: side:hospitality OR side:flutter (whoever needs to react). -->
+<!-- Apply exactly one: side:hospitality OR side:whatsapp-agent-frontend (whoever needs to react). -->
 
-**Owed by:** `side:hospitality` / `side:flutter` (apply the matching label)
+**Owed by:** `side:hospitality` / `side:whatsapp-agent-frontend` (apply the matching label)
 
 **Surface:** (endpoint path, or doc name)
 
