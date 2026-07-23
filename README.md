@@ -6,8 +6,11 @@ diffs that need both sides to see and act on them.
 
 This repo is **not** a source of truth — it's a coordination log. Canonical specs still live
 in their usual places:
-- Kiosk/Events OpenAPI contract (`/v1/*`)
-- `FLUTTER_EVENTS_PORTAL_SPEC.md` (also published as a shared doc)
+- Kiosk/Events OpenAPI contract (`/v1/*`) — `GET {API_BASE}/docs/openapi.json`, authoritative
+  for request/response schemas
+- **Events API contract for Flutter clients:**
+  [FLUTTER_EVENTS_PORTAL_SPEC.md](https://claude.ai/code/artifact/54d09c13-abd7-499f-b677-9ba0c9b014c3)
+  — kept in sync at this same URL as the spec evolves; §9 of that doc points back here
 
 Anyone (either agent, either human) can open an issue here — no collaborator invite needed.
 
