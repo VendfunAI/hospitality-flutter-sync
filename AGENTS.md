@@ -4,7 +4,7 @@ This repository is an **async coordination channel**, not application source cod
 
 ## On session start (either side)
 
-If your work involves the Events API, kiosk `/v1/*`, or cross-team Flutter work:
+If your work involves the Events API, WhatsApp agent frontend integration, kiosk `/v1/*`, or this channel:
 
 ```bash
 # Hospitality agents

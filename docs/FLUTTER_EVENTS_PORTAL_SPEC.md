@@ -10,9 +10,10 @@
 > applied there yet — see §1 note).  
 > **Machine-readable contract:** `GET {API_BASE}/docs/openapi.json` (paths under
 > `/Events/*`) — **authoritative** if this prose and OpenAPI diverge.  
-> **Version:** 1.3.1 (durable copy for Flutter sync repo; §9 protocol expanded
-> — todos/decisions/spec-diffs/**bugs**, secrets + human gate) — 2026-07-23
-> (v1.3 added §9 coordination channel; v1.2 Experiments; v1.1 sessionId +
+> **Version:** 1.3.2 (§9 consumer label `side:whatsapp-agent-frontend`, not
+> `side:flutter` — sync #3; published also at
+> github.com/VendfunAI/hospitality-flutter-sync `docs/`) — 2026-07-23
+> (v1.3.1 durable sync channel; v1.3 §9; v1.2 Experiments; v1.1 sessionId +
 > Dashboard/Profile/password/Campaigns Update/webhooks; v1.0 was 2026-07-20)
 
 ---
@@ -774,26 +775,31 @@ use the shared sync repo instead of ad hoc chat/email:
 | | |
 |--|--|
 | **Protocol** | [README.md](https://github.com/VendfunAI/hospitality-flutter-sync/blob/main/README.md) |
-| **This handoff (durable)** | [docs/FLUTTER_EVENTS_PORTAL_SPEC.md](https://github.com/VendfunAI/hospitality-flutter-sync/blob/main/docs/FLUTTER_EVENTS_PORTAL_SPEC.md) |
+| **Durable prose handoff (Events client)** | [docs/FLUTTER_EVENTS_PORTAL_SPEC.md](https://github.com/VendfunAI/hospitality-flutter-sync/blob/main/docs/FLUTTER_EVENTS_PORTAL_SPEC.md) |
 | **OpenAPI (authoritative schemas)** | `GET {API_BASE}/docs/openapi.json` |
 
 - One GitHub Issue per item: `type:todo` · `type:decision` · `type:spec-diff` · `type:bug`
 - Status: `status:open` → `status:in-review` → `status:decided` / `status:done` (or `status:blocked`)
-- Owner: `side:hospitality` / `side:flutter` — whoever owes the next move
-- **Read** is public; **label flips** need Write/Triage on the repo (invite Flutter team)
+- Owner: `side:hospitality` / **`side:whatsapp-agent-frontend`** — whoever owes the next move  
+  (consumer is the **WhatsApp agent frontend** / Next.js proxy — not a Flutter app; sync #3)
+- **Read** is public; **label flips** need Write/Triage on the sync repo
 - **Never** paste session tokens, API keys, or real guest PII into issues
 - Contract/shape **decisions** need **human sign-off on both sides** before `status:decided`
+- When this doc changes in a client-visible way: update OpenAPI + this file in Hospitality2.0,
+  **refresh the copy in the sync repo `docs/`**, and open a `type:spec-diff` with
+  `side:whatsapp-agent-frontend`
 
 Use it like this:
 - **`type:spec-diff`** — this doc or OpenAPI changed in a client-visible way
 - **`type:decision`** — pushback / choice before either side implements
 - **`type:todo`** — action items owed by either side
-- **`type:bug`** — live call ≠ contract (include redacted repro + `transactionId`)
+- **`type:bug`** — live call ≠ contract (redacted repro + `transactionId`)
 
-Flutter agent poll:
+WhatsApp agent frontend poll:
 
 ```bash
-gh issue list --repo VendfunAI/hospitality-flutter-sync --label side:flutter --state open
+gh issue list --repo VendfunAI/hospitality-flutter-sync \
+  --label side:whatsapp-agent-frontend --state open
 ```
 
 Hospitality agent poll:

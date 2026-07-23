@@ -5,4 +5,4 @@ contact_links:
     about: Authoritative schemas for /v1/Events/* and other /v1/* surfaces.
   - name: Events prose handoff (durable copy)
     url: https://github.com/VendfunAI/hospitality-flutter-sync/blob/main/docs/FLUTTER_EVENTS_PORTAL_SPEC.md
-    about: Auth, envelopes, env table, and endpoint catalogue for Flutter Events.
+    about: Auth, envelopes, env table, and endpoint catalogue for Events clients.
