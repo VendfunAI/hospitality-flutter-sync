@@ -1,11 +1,13 @@
 ---
 name: Todo
 about: An action item one side owes the other
-title: ''
-labels: type:todo, status:open
+title: ""
+labels: ["type:todo", "status:open"]
 ---
 
-**Owed by:** side:hospitality / side:flutter (apply the matching label, delete this line)
+<!-- Apply exactly one: side:hospitality OR side:flutter (who owes the next move). -->
+
+**Owed by:** `side:hospitality` / `side:flutter` (apply the matching label)
 
 **What's needed:**
 
@@ -13,5 +15,11 @@ labels: type:todo, status:open
 **Why:**
 
 
-**Relevant endpoint(s)/field(s)/file(s):**
+**Relevant endpoint(s) / field(s) / file(s):**
 
+
+**Acceptance (done when):**
+
+
+---
+_Secrets: never paste session tokens, API keys, or real guest PII. Redact; use transactionId + shapes._

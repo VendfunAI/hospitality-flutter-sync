@@ -1,93 +1,180 @@
 # Hospitality 2.0 ⇄ Flutter Sync
 
-A lightweight async channel between the **Hospitality 2.0 backend agent** (Claude, working in
-`Hospitality2.0`) and the **Flutter team's agent**, for todos, decisions, and spec/contract
-diffs that need both sides to see and act on them.
+A lightweight **async** channel between:
 
-This repo is **not** a source of truth — it's a coordination log. Canonical specs still live
-in their usual places:
-- Kiosk/Events OpenAPI contract (`/v1/*`) — `GET {API_BASE}/docs/openapi.json`, authoritative
-  for request/response schemas
-- **Events API contract for Flutter clients:**
-  [FLUTTER_EVENTS_PORTAL_SPEC.md](https://claude.ai/code/artifact/54d09c13-abd7-499f-b677-9ba0c9b014c3)
-  — kept in sync at this same URL as the spec evolves; §9 of that doc points back here
+| Side | Humans | Agents |
+|------|--------|--------|
+| **Hospitality 2.0** (backend / platform) | Vendfun | Claude, Grok, other coding agents in `Hospitality2.0` |
+| **Flutter** (Events portal + kiosk clients) | Flutter team | Their coding agent(s) |
 
-Anyone (either agent, either human) can open an issue here — no collaborator invite needed.
+…for **todos**, **decisions**, **spec/contract diffs**, and **integration bugs** that need both sides to see and act on them.
+
+This repo is **not** a source of truth for API shapes — it's a **coordination log**.
+
+---
+
+## Canonical contracts (source of truth)
+
+| Artefact | Role | Where |
+|----------|------|--------|
+| **OpenAPI** | **Authoritative** request/response schemas | STG: `https://api.vendfun.cloud/docs/openapi.json` · PRD: `https://api.vendfun.com/docs/openapi.json` (paths under `/Events/*` and other `/v1/*`) |
+| **Events prose handoff** | Auth, env table, envelope rules, endpoint catalogue for Flutter Events | **[docs/FLUTTER_EVENTS_PORTAL_SPEC.md](./docs/FLUTTER_EVENTS_PORTAL_SPEC.md)** (durable copy; prefer this over any chat/artifact link) |
+| **This repo** | Trackable work only (issues) | You are here |
+
+If prose and OpenAPI diverge, **OpenAPI wins** for field shapes. Prefer generating client models from OpenAPI.
+
+**Environments (Events):** use **STG** `https://api.vendfun.cloud` for integration. See the handoff §1 for DEV / STG / PRD.
+
+---
+
+## Access model
+
+| Action | Who |
+|--------|-----|
+| **Read** issues + docs | Anyone (public repo) — no invite |
+| **Open issues / comment** | Any logged-in GitHub user |
+| **Apply / flip labels** (`side:*`, `status:*`, …) | Needs **Write** or **Triage** on this repo |
+
+Hospitality maintainers should invite the Flutter team (GitHub users or a bot) with **Write** (or Triage) so their agent can flip `side:*` and close work. Until then, Flutter may open/comment and Hospitality will maintain labels — state that in the issue if labels 403.
+
+---
 
 ## What goes here
 
-Exactly three kinds of items, one GitHub Issue each:
+Exactly **four** kinds of items — **one GitHub Issue each**:
 
 | Type | Label | Use for |
 |------|-------|---------|
-| Todo | `type:todo` | An action item one side owes the other (e.g. "expose `screen_id` in the route push payload") |
-| Decision | `type:decision` | A choice that needs both sides' sign-off before either implements (e.g. "should `pmsId` hint be dropped from the kiosk envelope?") |
-| Spec/contract diff | `type:spec-diff` | The OpenAPI spec or a shared `.md` doc changed in a way that affects the other side's client/agent |
+| Todo | `type:todo` | An action item one side owes the other |
+| Decision | `type:decision` | A choice that needs **both sides' human sign-off** before either implements a contract/shape change |
+| Spec/contract diff | `type:spec-diff` | OpenAPI or the shared handoff changed in a way that affects the other side |
+| Bug / integration issue | `type:bug` | Live call failed or behaviour ≠ contract; include redacted repro |
 
-Use the issue template that matches (`New Issue` → pick one). Don't use this repo for general
-chat, code review, or anything that isn't a todo/decision/spec-diff — keep the signal clean.
+Use **New Issue → pick the template**. Do **not** use this repo for general chat, code review, or anything outside those four types.
+
+Blank issues are disabled (`config.yml`).
+
+---
+
+## Secrets & PII (hard rule)
+
+**Never** paste into issues or comments:
+
+- `session_token` / `sessionId` values  
+- `X-API-Key` or other API keys  
+- production secrets or passwords beyond the **published STG sandbox** account in the handoff  
+- real guest PII (names, phones, emails of real guests)
+
+**Do** include: path, redacted body shape, `transactionId`, `responseInfo.errorCode` / `errorMessage`, `versionNo`, platform version if known.
+
+---
 
 ## Status lifecycle
 
-Every issue carries exactly one status label, moved forward as it progresses:
+Every issue carries **exactly one** `status:*` label:
 
 `status:open` → `status:in-review` → `status:decided` **or** `status:done`
 
-- `status:blocked` — parked, waiting on the other side to unblock (say what's needed, in a comment)
-- Close the issue when it reaches `status:decided` or `status:done`. Leave a closing comment
-  stating the outcome/rationale — the close is itself the record, don't just close silently.
+- `status:blocked` — parked; say in a comment what unblocks it  
+- Close when `status:decided` or `status:done`  
+- **Always leave a closing comment** with outcome/rationale — the close is the record  
 
-## Whose action item it is
+---
 
-Tag every issue with exactly one owner label:
-- `side:hospitality` — Claude / Hospitality 2.0 backend owes the next move
-- `side:flutter` — Flutter team's agent owes the next move
+## Whose turn (`side:*`)
 
-Flip the label when the ball changes sides (e.g. after answering a question, hand it back).
+Every issue carries **exactly one** owner label:
+
+| Label | Meaning |
+|-------|---------|
+| `side:hospitality` | Hospitality backend (Claude / Grok / Vendfun) owes the next move |
+| `side:flutter` | Flutter team / their agent owes the next move |
+
+Flip the label when the ball changes sides.
+
+---
+
+## Human gate on decisions (important)
+
+- Agents may **draft** options, recommendations, and proposed wording.  
+- For **contract / envelope / breaking** changes: apply `status:decided` only after **human sign-off on both sides** (Hospitality decision-maker + Flutter lead).  
+- Agents may close pure **todos** and **bugs** after the fix is verified (no dual human sign-off required unless the fix changes the public contract — then open a `type:decision` or `type:spec-diff`).
+
+---
 
 ## Conventions per type
 
-**Todo** — title is an imperative ("Expose `screen_id` in route push payload"). Body: what's
-needed, why, and any relevant endpoint/field names.
+**Todo** — title is an imperative ("Expose `screen_id` in route push payload"). Body: what's needed, why, endpoints/fields.
 
-**Decision** — title is a question ("Should we drop `requestInfo.pmsId` from the kiosk
-envelope?"). Body: context, options considered, default/recommendation if any. When resolved,
-comment with the actual decision + one-line rationale, apply `status:decided`, close.
+**Decision** — title is a question ("Should we drop `requestInfo.pmsId`?"). Body: context, options, recommendation. Resolve with closing comment + `status:decided` + human gate above.
 
-**Spec/contract diff** — title names the surface + what changed ("`/v1/Events/Campaigns`:
-added optional `experimentId` field"). Body: old vs new shape, the service/version this
-shipped in (e.g. `platform-service v1.0.xxx`), and whether it's backwards-compatible or a
-breaking change.
+**Spec/contract diff** — title names surface + change ("`/v1/Events/Campaigns`: optional `experimentId`"). Body: old vs new, service version, backwards-compatible?, links (OpenAPI / handoff § / commit), consumer (Events / Kiosk / both), action for the other side.
 
-## Polling (for agents)
+**Bug** — title is symptom + path. Body: environment, steps, expected vs actual, redacted request/response, `transactionId`, version.
 
-Either agent can poll via the GitHub CLI or REST API — no special auth beyond a normal
-`gh`-authenticated session (public repo, so reading needs no auth at all):
+---
+
+## Agent playbooks
+
+### Hospitality agent (Claude / Grok / etc.)
+
+**When the session touches Events, Flutter contract, kiosk `/v1/*`, or this channel**, poll first:
 
 ```bash
-# Everything open
-gh issue list --repo VendfunAI/hospitality-flutter-sync --state open
-
-# Only what's waiting on Flutter
-gh issue list --repo VendfunAI/hospitality-flutter-sync --label side:flutter --state open
-
-# Only decisions still pending
-gh issue list --repo VendfunAI/hospitality-flutter-sync --label type:decision --label status:open
+gh issue list --repo VendfunAI/hospitality-flutter-sync \
+  --label side:hospitality --state open
 ```
 
-New comments on existing issues count as activity too — check `updatedAt`, not just new issues.
+Also useful:
 
-## Labels
+```bash
+gh issue list --repo VendfunAI/hospitality-flutter-sync --state open
+gh issue list --repo VendfunAI/hospitality-flutter-sync \
+  --label type:decision --label status:open
+```
+
+**After shipping a client-visible contract change:**
+
+1. Update OpenAPI + Hospitality handoff (`FLUTTER_EVENTS_PORTAL_SPEC.md`)  
+2. Refresh `docs/FLUTTER_EVENTS_PORTAL_SPEC.md` in **this** repo if the prose handoff changed  
+3. Open a `type:spec-diff` issue, set `side:flutter`, link version / paths  
+
+### Flutter agent
+
+```bash
+gh issue list --repo VendfunAI/hospitality-flutter-sync \
+  --label side:flutter --state open
+```
+
+- Contract unclear / pushback → `type:decision`  
+- Action needed from backend → `type:todo` with `side:hospitality`  
+- Live mismatch → `type:bug` with redacted repro  
+
+New comments count as activity — check issue `updatedAt`, not only new issues.
+
+---
+
+## Labels (protocol)
 
 | Label | Meaning |
 |-------|---------|
 | `type:todo` | Action item |
-| `type:decision` | Needs sign-off from both sides |
+| `type:decision` | Needs sign-off (human gate for contract changes) |
 | `type:spec-diff` | Contract/spec changed |
+| `type:bug` | Integration / behaviour bug |
 | `status:open` | Not yet started / not yet answered |
 | `status:in-review` | Being looked at |
 | `status:decided` | Decision made (see closing comment) |
-| `status:done` | Todo completed |
-| `status:blocked` | Waiting on the other side |
-| `side:hospitality` | Hospitality 2.0 backend owes the next move |
-| `side:flutter` | Flutter team owes the next move |
+| `status:done` | Todo or bug completed |
+| `status:blocked` | Waiting on the other side (or external) |
+| `side:hospitality` | Hospitality owes next move |
+| `side:flutter` | Flutter owes next move |
+
+---
+
+## Links
+
+- Sync protocol: this README  
+- Events handoff (prose): [docs/FLUTTER_EVENTS_PORTAL_SPEC.md](./docs/FLUTTER_EVENTS_PORTAL_SPEC.md)  
+- OpenAPI STG: https://api.vendfun.cloud/docs/openapi.json  
+- OpenAPI docs UI STG: https://api.vendfun.cloud/docs  
